@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "995071842217",
+    "project_id": "glovo-pzlj2g",
+    "storage_bucket": "glovo-pzlj2g.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995071842217:android:c33386fff59e33e574d6b8",
+        "android_client_info": {
+          "package_name": "com.example.zoomclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995071842217-bvhfmgn2aue9d34qlcuaj6g2jmubqq4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvzCYi1uZX1y4of7ugryd9mpmpHhsIwIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995071842217-bvhfmgn2aue9d34qlcuaj6g2jmubqq4a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "995071842217-d68502jmfuiik7fs4i3qpbmhqj5eti7c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.yammi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
