@@ -6,44 +6,51 @@ import 'package:zoomclone/utils/snackbar.dart';
 
 class AuthMethod {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _Firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get authChanges => _auth.authStateChanges();
+  User get user => _auth.currentUser!;
 
   Future<bool> signInWithGoogle(BuildContext context) async {
     bool res = false;
-    try{
+    try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
-        idToken :googleAuth?.idToken,
+        idToken: googleAuth?.idToken,
       );
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
       User? user = userCredential.user;
-      if(user!=null){
-        if(userCredential.additionalUserInfo!.isNewUser){
-          await _Firestore.collection('users').doc(user.uid).set({
-            'username' : user.displayName,
+
+      if (user != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          await _firestore.collection('users').doc(user.uid).set({
+            'username': user.displayName,
             'uid': user.uid,
             'profilePhoto': user.photoURL,
-
           });
-
         }
-        res = true ;
-
+        res = true;
       }
-       
-
-    }on FirebaseAuthException catch(e){
-      showSnackBar(context, e.message! );
-      res=false;
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message!);
+      res = false;
     }
-  return res;
+    return res;
   }
 
+  void signOut() async {
+    try {
+      _auth.signOut();
+    } catch (e) {
+      print(e);
+    }
+  }
 }
