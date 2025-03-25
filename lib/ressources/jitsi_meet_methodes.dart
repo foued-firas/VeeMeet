@@ -7,44 +7,46 @@ class JitsiMeetMethods {
   final AuthMethod _authMethods = AuthMethod();
   final FirestoreMethods _firestoreMethods = FirestoreMethods();
 
+  // Define the default server URL
+  static const String defaultServerUrl = 'https://meet.jit.si'; // Default Jitsi Meet server
+
   void createMeeting({
     required String roomName,
     required bool isAudioMuted,
     required bool isVideoMuted,
     String username = '',
-    }) async {
+  }) async {
     try {
-      // Définition des options de fonctionnalité
+      // Define feature flags
       Map<String, Object> featureFlags = {
-        "resolution": 360, // Réduction de la résolution vidéo à 360p
-        "welcomePageEnabled": false, // Désactiver la page d'accueil Jitsi
+        "resolution": 360, // Reduce video resolution to 360p
+        "welcomePageEnabled": false, // Disable Jitsi's welcome page
       };
 
-      // Définition du nom de l'utilisateur
+      // Set user name
       String name = username.isEmpty ? _authMethods.user.displayName! : username;
 
-      // Création des options de réunion
+      // Create meeting options
       var options = JitsiMeetingOptions(
-        roomNameOrUrl: roomName,
-        isAudioMuted: isAudioMuted,
-        isVideoMuted: isVideoMuted,
-        userDisplayName: name,
-        userEmail: _authMethods.user.email,
-        userAvatarUrl: _authMethods.user.photoURL,
-        featureFlags: featureFlags,
-      );
+  roomNameOrUrl: roomName,
+  isAudioMuted: isAudioMuted,
+  isVideoMuted: isVideoMuted,
+  userDisplayName: name,
+  userEmail: _authMethods.user.email,
+  userAvatarUrl: _authMethods.user.photoURL,
+  featureFlags: featureFlags,
+  serverUrl: 'https://localhost:8443',  // Your local Jitsi Meet URL
+);
 
-      
-
-      // Ajouter à l'historique des réunions
+      // Add the meeting to history
       _firestoreMethods.addToMeetingHistory(roomName);
 
-      // Lancer la réunion avec JitsiMeetWrapper
+      // Start the meeting using JitsiMeetWrapper
       await JitsiMeetWrapper.joinMeeting(
         options: options,
       );
     } catch (error) {
-      debugPrint("Erreur: $error");
+      debugPrint("Error: $error");
     }
   }
 }
